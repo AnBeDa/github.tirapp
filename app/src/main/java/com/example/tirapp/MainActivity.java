@@ -14,6 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,12 +26,31 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, android.widget.AdapterView.OnItemSelectedListener {
 
     private GoogleMap mMap;
 
     LocationManager   myLocManager;
     LocationListener  myLocListener;
+
+    Spinner   mySpinner;
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+        // TODO Auto-generated method stub
+        Toast.makeText(this, "YOUR SELECTION IS : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // TODO Auto-generated method stub
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -82,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             myLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,0, myLocListener);
         }
+
     }
 
     @Override
@@ -96,5 +120,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
         }
+
+        mySpinner = (Spinner) findViewById(R.id.spinner1);
+        mySpinner.setOnItemSelectedListener(this);
+        List<String> list = new ArrayList<String>();
+        list.add("RANJITH");
+        list.add("ARUN");
+        list.add("JEESMON");
+        list.add("NISAM");
+        list.add("SREEJITH");
+        list.add("SANJAY");
+        list.add("AKSHY");
+        list.add("FIROZ");
+        list.add("RAHUL");
+        list.add("ARJUN");
+        list.add("SAVIYO");
+        list.add("VISHNU");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(adapter);
+
     }
+
 }
