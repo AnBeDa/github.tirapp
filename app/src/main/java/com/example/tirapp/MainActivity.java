@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onProviderDisabled(String provider) {
-                Log.i("GPS", "GPS ausgeschaltet du Honk");
+                Log.i("GPS", "GPS ausgeschaltet du Honki");
             }
         };
 
