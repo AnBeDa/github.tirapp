@@ -39,19 +39,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Spinner   mySpinner;
 
 
-    public class Student{
-        private String name;
-        public Student(String name){
-            this.name = name;
-        }
-        //Getter
-        public String getName() {
-            return name;
-        }
-    }
+     ArrayList<Abladestelle> ListOfAbladestellen= new ArrayList<Abladestelle>();
 
-    ArrayList<Abladestelle> ListOfAbladestellen= new ArrayList<Abladestelle>();
-
+     //Funktion für Referenz auf bestimmtes Ojekt
+    // IN  -> String Name
+    // OUT -> Abladestelle [Objekt]
     public Abladestelle findAbladestelleByName(String name) {
         for(Abladestelle ablObj : ListOfAbladestellen) {
             if(ablObj.getName().equals(name)) {
@@ -60,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return null;
     }
-
 
 
     @Override
@@ -160,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mySpinner = (Spinner) findViewById(R.id.spinner1);
         mySpinner.setOnItemSelectedListener(this);
+
         List<String> list = new ArrayList<String>();
         //list.add("RANJITH");
         //list.add("ARUN");
@@ -201,6 +193,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Getter
         public String getName() {
             return Name;
+        }
+        public LatLng getKoordinaten() {
+            return Koordinaten;
         }
 
 
