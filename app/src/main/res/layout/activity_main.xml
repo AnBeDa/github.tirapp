@@ -25,9 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <fragment
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="398dp"
@@ -43,32 +41,18 @@
         map:layout_constraintTop_toBottomOf="@+id/tir_txt_main_headline"
         tools:context=".MainActivity" />
 
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
+    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/customize_spinner"
+        android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tir_txt_main_headline"
-        app:srcCompat="@android:drawable/btn_dropdown" />
+        tools:layout_editor_absoluteX="-16dp" />
+    <!--android:background="#B4E4C967"-->
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="181dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="18dp"
-        android:background="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tir_txt_main_headline"
-        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

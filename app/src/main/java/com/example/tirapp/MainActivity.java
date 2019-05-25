@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, android.widget.AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     LocationListener  myLocListener;
 
     Spinner   mySpinner;
-
 
      ArrayList<Abladestelle> ListOfAbladestellen= new ArrayList<Abladestelle>();
 
@@ -56,27 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Test....
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
-        // TODO Auto-generated method stub
-        Toast.makeText(this, "YOUR SELECTION IS : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
 
-        Abladestelle selectedAbladestelle = findAbladestelleByName(parent.getItemAtPosition(position).toString());
-
-        LatLng ablMarker = selectedAbladestelle.Koordinaten;
-        mMap.addMarker(new MarkerOptions().position(ablMarker).title(selectedAbladestelle.Name));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ablMarker,15));
-
-
-
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // TODO Auto-generated method stub
-    }
 
 
     @Override
@@ -93,9 +72,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState); setContentView(R.layout.activity_main);
+
+
+            Abladestelle ablTor3 = new Abladestelle("Tor 3", new LatLng(48.648352, 12.470683));
+            Abladestelle ablTor4 = new Abladestelle("Tor 4", new LatLng(48.652777, 12.469011));
+
+            mySpinner = (Spinner) findViewById(R.id.spinner);
+
+            List<String> list = new ArrayList<String>();
+            list.add(ablTor4.Name);
+            list.add(ablTor3.Name);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mySpinner.setAdapter(adapter);
+            mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                    Object item = adapterView.getItemAtPosition(position);
+                    Toast.makeText(MainActivity.this, " Ausgewählt: >> "+item.toString(), Toast.LENGTH_SHORT).show();
+
+                    Abladestelle selectedAbladestelle = findAbladestelleByName(item.toString());
+                    LatLng ablMarker = selectedAbladestelle.Koordinaten;
+                    mMap.addMarker(new MarkerOptions().position(ablMarker).title(selectedAbladestelle.Name));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ablMarker,15));
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    // TODO Auto-generated method stub
+                }
+            });
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -148,34 +159,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.setMyLocationEnabled(true);
         }
 
-        Abladestelle ablTor3 = new Abladestelle("Tor 3", new LatLng(48.648352, 12.470683));
-        Abladestelle ablTor4 = new Abladestelle("Tor 4", new LatLng(48.652777, 12.469011));
 
-        mySpinner = (Spinner) findViewById(R.id.spinner1);
-        mySpinner.setOnItemSelectedListener(this);
-
-        List<String> list = new ArrayList<String>();
-        //list.add("RANJITH");
-        //list.add("ARUN");
-        //list.add("JEESMON");
-        //list.add("NISAM");
-        //list.add("SREEJITH");
-        // list.add("SANJAY");
-        //list.add("AKSHY");
-        //list.add("FIROZ");
-        //list.add("RAHUL");
-        //list.add("ARJUN");
-        //list.add("SAVIYO");
-        //list.add("VISHNU");
-        list.add(ablTor4.Name);
-        list.add(ablTor3.Name);
-
-
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner.setAdapter(adapter);
 
     }
 
