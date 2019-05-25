@@ -7,9 +7,11 @@
     tools:context=".SplashscreenActivity">
 
     <ImageView
+        android:id="@+id/tir_pic_logonscreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/pic_app_tir_intro" />
+        android:src="@drawable/pic_app_tir_intro"
+        tools:layout_editor_absoluteX="8dp" />
 
 </android.support.constraint.ConstraintLayout>
