@@ -9,13 +9,14 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>
                          implements Filterable {
 //--------------------------------------------------------------------------------------------------    
     private ArrayList<tir_main_rvs_items> myExampleList;
     private ArrayList<tir_main_rvs_items> myExampleListFull;
-    
+
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView mImageView;
@@ -70,11 +71,36 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     private Filter myExampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            return null;
+
+            ArrayList<tir_main_rvs_items> filteredList = new ArrayList<>();
+
+            if ( constraint == null || constraint.length() == 0){
+
+                filteredList.addAll(myExampleListFull);
+            }else{
+
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (tir_main_rvs_items item : myExampleListFull) {
+
+                    if (item.getmText1().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            myExampleList.clear();
+            myExampleList.addAll((List)results.values);
+            notifyDataSetChanged();
 
         }
     };
