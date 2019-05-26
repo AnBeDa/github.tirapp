@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tir_layout_splashscreen"
@@ -16,7 +17,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/tir_splashscreen_welcome"
         android:textAlignment="center"
-        android:textColor="@color/colorMainFontcolor"
+        android:textColor="@color/colorMainFont"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

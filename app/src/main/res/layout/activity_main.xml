@@ -5,7 +5,7 @@
     android:id="@+id/tir_layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorMainBackground"
+    android:background="@color/colorMainBg"
     tools:context=".MainActivity">
 
     <TextView
@@ -18,41 +18,39 @@
         android:text="@string/tir_main_headline"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/colorMainFontcolor"
+        android:textColor="@color/colorMainFont"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tir_main_rvs"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="12dp"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tir_txt_main_headline" />
+
     <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="398dp"
-        android:layout_height="439dp"
+        android:layout_width="407dp"
+        android:layout_height="512dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintHorizontal_bias="0.51"
+        map:layout_constraintHorizontal_bias="0.666"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toBottomOf="@+id/tir_txt_main_headline"
+        map:layout_constraintVertical_bias="0.952"
         tools:context=".MainActivity" />
-
-    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/customize_spinner"
-        android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintTop_toBottomOf="@+id/tir_txt_main_headline"
-        tools:layout_editor_absoluteX="-16dp" />
-    <!--android:background="#B4E4C967"-->
-
 
 </android.support.constraint.ConstraintLayout>

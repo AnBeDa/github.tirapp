@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    app:cardBackgroundColor="@color/colorMainBgCardV"
+    card_view:cardElevation="5dp"
+    app:contentPadding="1dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:padding="2dp">
+
+        <ImageView
+            android:id="@+id/tir_rvs_img"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+
+        <TextView
+            android:id="@+id/tir_rvs_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/tir_rvs_img"
+            android:text="Line 1"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tir_rvs_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tir_rvs_text1"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/tir_rvs_img"
+            android:text="Line 2"
+            android:textSize="8sp" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

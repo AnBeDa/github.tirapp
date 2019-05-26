@@ -3,15 +3,19 @@ package com.example.tirapp;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,36 +30,38 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, android.widget.AdapterView.OnItemSelectedListener {
 
-    private GoogleMap mMap;
+    private GoogleMap                       myMap;
+    private RecyclerView                    myRecyclerView;
+    private RecyclerView.Adapter            myAdapter;
+    private RecyclerView.LayoutManager      myLayoutManager;
+    private LocationManager                 myLocManager;
+    private LocationListener                myLocListener;
 
-    LocationManager   myLocManager;
-    LocationListener  myLocListener;
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-    Spinner   mySpinner;
+        // TODO Auto-generated method stub
+        Toast.makeText(this, "YOUR SELECTION IS : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
 
-     ArrayList<Abladestelle> ListOfAbladestellen= new ArrayList<Abladestelle>();
+//      Abladestelle selectedAbladestelle = findAbladestelleByName(parent.getItemAtPosition(position).toString());
 
-     //Funktion für Referenz auf bestimmtes Ojekt
-    // IN  -> String Name
-    // OUT -> Abladestelle [Objekt]
-    public Abladestelle findAbladestelleByName(String name) {
-        for(Abladestelle ablObj : ListOfAbladestellen) {
-            if(ablObj.getName().equals(name)) {
-                return ablObj;
-            }
-        }
-        return null;
+//        LatLng ablMarker = selectedAbladestelle.Koordinaten;
+//        mMap.addMarker(new MarkerOptions().position(ablMarker).title(selectedAbladestelle.Name));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ablMarker,15));
+
     }
 
-    // Test....
-
-
-
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // TODO Auto-generated method stub
+    }
 
 
     @Override
@@ -65,57 +71,43 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 myLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myLocListener);
-                mMap.setMyLocationEnabled(true);
+                myMap.setMyLocationEnabled(true);
             }
         }
     }
 
+    //----------------------------------------------------------------------------------------------
+    // On Create Methode
+    // =============================================================================================
+    // Input:       |
+    // Output:      |
+    // Last Change: |
+    // Comment:     |
+    //              |
+    //----------------------------------------------------------------------------------------------
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        @Override
-    protected void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState); setContentView(R.layout.activity_main);
+        ArrayList<tir_main_rvs_items> lc_tir_main_rvs_items = new ArrayList<>();
+        lc_tir_main_rvs_items.add(new tir_main_rvs_items(R.drawable.ic_android, "Test1", "Test 1"));
+        lc_tir_main_rvs_items.add(new tir_main_rvs_items(R.drawable.ic_android, "Test2", "Test 2"));
+        lc_tir_main_rvs_items.add(new tir_main_rvs_items(R.drawable.ic_android, "Test3", "Test 3"));
 
-
-            Abladestelle ablTor3 = new Abladestelle("Tor 3", new LatLng(48.648352, 12.470683));
-            Abladestelle ablTor4 = new Abladestelle("Tor 4", new LatLng(48.652777, 12.469011));
-
-            mySpinner = (Spinner) findViewById(R.id.spinner);
-
-            List<String> list = new ArrayList<String>();
-            list.add(ablTor4.Name);
-            list.add(ablTor3.Name);
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mySpinner.setAdapter(adapter);
-            mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                    Object item = adapterView.getItemAtPosition(position);
-                    Toast.makeText(MainActivity.this, " Ausgewählt: >> "+item.toString(), Toast.LENGTH_SHORT).show();
-
-                    Abladestelle selectedAbladestelle = findAbladestelleByName(item.toString());
-                    LatLng ablMarker = selectedAbladestelle.Koordinaten;
-                    mMap.addMarker(new MarkerOptions().position(ablMarker).title(selectedAbladestelle.Name));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ablMarker,15));
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    // TODO Auto-generated method stub
-                }
-            });
-
-
+        myLayoutManager = new LinearLayoutManager(this);
+        myAdapter       = new ExampleAdapter(lc_tir_main_rvs_items);
+        //------------------------------------------------------------------------------------------
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        //------------------------------------------------------------------------------------------
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Log.i("Durchlauf Main Activity", "oncreate Mainactivity");
-
+        //------------------------------------------------------------------------------------------
         myLocManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        //------------------------------------------------------------------------------------------
+
         myLocListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -139,10 +131,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         };
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1 );
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
-            myLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,0, myLocListener);
+            myLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myLocListener);
         }
+        //------------------------------------------------------------------------------------------
+
+        myRecyclerView = findViewById(R.id.tir_main_rvs);
+        myRecyclerView.setHasFixedSize(true);
+        myRecyclerView.setLayoutManager(myLayoutManager);
+        myRecyclerView.setAdapter(myAdapter);
+        //------------------------------------------------------------------------------------------
+        // Modify intent between each cardview
+        //------------------------------------------------------------------------------------------
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(2);
+        myRecyclerView.addItemDecoration(itemDecoration);
 
     }
 
@@ -150,41 +153,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
 
         Log.i("Marker", "Marker Erzeugen");
-        mMap = googleMap;
-        LatLng Marker1 = new LatLng(48,12);
-        mMap.addMarker(new MarkerOptions().position(Marker1).title("Andi & Dani sind super"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Marker1,15));
+        myMap = googleMap;
+        LatLng Marker1 = new LatLng(48, 12);
+        myMap.addMarker(new MarkerOptions().position(Marker1).title("Andi & Dani sind super"));
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Marker1, 15));
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            myMap.setMyLocationEnabled(true);
         }
-
-
-
     }
-
-    public class Abladestelle {
-       private Integer ID;
-       public String Name;
-       public LatLng Koordinaten;
-       //public List ListOfAbladestellen = new ArrayList<Abladestelle>();
-
-        public Abladestelle (String cName, LatLng cKoordinaten) {
-            this.Name=cName;
-            this.Koordinaten = cKoordinaten;
-            this.ID = ListOfAbladestellen.size();
-            ListOfAbladestellen.add(this);
-        }
-
-        //Getter
-        public String getName() {
-            return Name;
-        }
-        public LatLng getKoordinaten() {
-            return Koordinaten;
-        }
-
-
-    }
-
 }
+
